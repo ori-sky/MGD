@@ -1,6 +1,4 @@
 var TILE_SIZE = 16
-var NUM_ROWS = 30
-var NUM_COLS = 40
 
 var tilemap =
 [
@@ -36,31 +34,16 @@ var tilemap =
 	[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ]
 
-var drawtiles = function(ctx)
+var drawtiles = function(ctx, tileset)
 {
 	tilemap.forEach(function(rv, rk)
 	{
 		rv.forEach(function(cv, ck)
 		{
-			var x = ck * TILE_SIZE
-			var y = rk * TILE_SIZE
-
-			switch(tilemap[rk][ck])
-			{
-				case 0:
-					ctx.fillStyle = 'lightgray'
-					break
-				case 1:
-					ctx.fillStyle = 'blue'
-					break
-				case 2:
-					ctx.fillStyle = 'red'
-					break
-				case 3:
-					ctx.fillStyle = 'green'
-					break
-			}
-			ctx.fillRect(x, y, x + TILE_SIZE, y + TILE_SIZE)
+			var srcx = tilemap[rk][ck] * TILE_SIZE
+			var dstx = ck * TILE_SIZE
+			var dsty = rk * TILE_SIZE
+			ctx.drawImage(tileset, srcx, 0, TILE_SIZE, TILE_SIZE, dstx, dsty, TILE_SIZE, TILE_SIZE)
 		})
 	})
 }
@@ -69,5 +52,8 @@ window.onload = function()
 {
 	var cvs = document.getElementById('canvas')
 	var ctx = cvs.getContext('2d')
-	drawtiles(ctx)
+
+	var tileset = new Image();
+	tileset.src = 'tileset.png'
+	tileset.onload = drawtiles.bind(undefined, ctx, tileset)
 }
