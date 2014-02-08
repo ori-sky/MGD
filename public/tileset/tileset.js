@@ -2,6 +2,7 @@ var TILE_SIZE = 16
 
 var drawtiles = function(ctx, tilemap, tileset)
 {
+	var draw = ctx.drawImage.bind(ctx, tileset)
 	tilemap.forEach(function(rv, rk)
 	{
 		rv.forEach(function(cv, ck)
@@ -9,7 +10,7 @@ var drawtiles = function(ctx, tilemap, tileset)
 			var srcx = tilemap[rk][ck] * TILE_SIZE
 			var dstx = ck * TILE_SIZE
 			var dsty = rk * TILE_SIZE
-			ctx.drawImage(tileset, srcx, 0, TILE_SIZE, TILE_SIZE, dstx, dsty, TILE_SIZE, TILE_SIZE)
+			draw(srcx, 0, TILE_SIZE, TILE_SIZE, dstx, dsty, TILE_SIZE, TILE_SIZE)
 		})
 	})
 }
