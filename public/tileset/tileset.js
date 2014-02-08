@@ -1,18 +1,45 @@
-var TILE_SIZE = 16
-
-var drawtiles = function(ctx, tilemap, tileset)
+var TileMap = function(path)
 {
-	var draw = ctx.drawImage.bind(ctx, tileset)
-	tilemap.forEach(function(rv, rk)
+	var xmlhttp = new XMLHttpRequest()
+	xmlhttp.open('GET', path, false)
+	xmlhttp.send()
+
+	// create array[rows][cols] of numbers
+	this.map = xmlhttp.responseText.split(/\s+/).map(function(v)
+	{
+		return v.split('').map(function(v) { return parseInt(v) })
+	})
+
+	this.rows = this.map.length
+	this.cols = this.map[0].length
+
+	this.toString = function() { return xmlhttp.responseText }
+}
+
+var TileSet = function(tile_size)
+{
+	this.tile_size = tile_size
+	this.tilemap = []
+}
+
+TileSet.prototype.load = function(path, callback)
+{
+	this.tileset = new Image()
+	this.tileset.src = path
+	this.tileset.onload = callback
+}
+
+TileSet.prototype.draw = function(ctx)
+{
+	var draw_b = ctx.drawImage.bind(ctx, this.tileset)
+	this.tilemap.map.forEach(function(rv, rk)
 	{
 		rv.forEach(function(cv, ck)
 		{
-			var srcx = tilemap[rk][ck] * TILE_SIZE
-			var dstx = ck * TILE_SIZE
-			var dsty = rk * TILE_SIZE
-			draw(srcx, 0, TILE_SIZE, TILE_SIZE, dstx, dsty, TILE_SIZE, TILE_SIZE)
-		})
-	})
+			var s = this.tile_size
+			draw_b(s * this.tilemap.map[rk][ck], 0, s, s, s * ck, s * rk, s, s)
+		}.bind(this))
+	}.bind(this))
 }
 
 window.onload = function()
@@ -20,17 +47,8 @@ window.onload = function()
 	var cvs = document.getElementById('canvas')
 	var ctx = cvs.getContext('2d')
 
-	var xmlhttp = new XMLHttpRequest();
-	xmlhttp.open('GET', 'tilemap.txt', false)
-	xmlhttp.send()
-
-	// create array[rows][cols] of numbers
-	var tilemap = xmlhttp.responseText.split(/\s+/).map(function(v)
-	{
-		return v.split('').map(function(v) { return parseInt(v) })
-	})
-
-	var tileset = new Image();
-	tileset.src = 'tileset.png'
-	tileset.onload = drawtiles.bind(undefined, ctx, tilemap, tileset)
+	var TILE_SIZE = 16
+	var ts = new TileSet(TILE_SIZE)
+	ts.tilemap = new TileMap('tilemap.txt')
+	ts.load('tileset.png', ts.draw.bind(ts, ctx))
 }
