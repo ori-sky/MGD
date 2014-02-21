@@ -2,11 +2,11 @@ describe('Rect', function()
 {
 	it('can be created', function()
 	{
-		r = new Rect(10, 20, 40, 30)
+		var r = new Rect(10, 20, 40, 30)
 		expect(r).toBeDefined()
 	})
 
-	describe('when created', function()
+	describe('once created', function()
 	{
 		var r
 
@@ -33,6 +33,13 @@ describe('Rect', function()
 		it('has the correct value of `height`', function()
 		{
 			expect(r.height).toBe(30)
+		})
+
+		it('can be moved to a new location', function()
+		{
+			r.moveTo(50, 30)
+			expect(r.x).toBe(50)
+			expect(r.y).toBe(30)
 		})
 	})
 })
