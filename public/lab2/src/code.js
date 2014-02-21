@@ -1,7 +1,13 @@
-var Rect = function(x, y, w, h)
+var Rect = function(x, y, width, height)
 {
 	this.x = x
 	this.y = y
-	this.width = w
-	this.height = h
+	this.width = width
+	this.height = height
+}
+
+Rect.prototype.moveTo = function(x, y)
+{
+	this.x = x
+	this.y = y
 }
