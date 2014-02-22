@@ -27,3 +27,13 @@ Rect.prototype.contains = function(x, y)
 		y > this.y + this.height
 	)
 }
+
+Rect.prototype.overlaps = function(r)
+{
+	return !(
+		r.width  + r.x <= this.x ||
+		r.height + r.y <= this.y ||
+		           r.x >= this.x + this.width ||
+		           r.y >= this.y + this.height
+	)
+}
