@@ -11,3 +11,9 @@ Rect.prototype.moveTo = function(x, y)
 	this.x = x
 	this.y = y
 }
+
+Rect.prototype.moveBy = function(x, y)
+{
+	this.x += x
+	this.y += y
+}
