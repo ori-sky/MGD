@@ -37,3 +37,18 @@ Rect.prototype.overlaps = function(r)
 		           r.y >= this.y + this.height
 	)
 }
+
+Rect.prototype.is = function(r)
+{
+	return r === this
+}
+
+Rect.prototype.isEqual = function(r)
+{
+	return (
+		r.x      === this.x &&
+		r.y      === this.y &&
+		r.width  === this.width &&
+		r.height === this.height
+	)
+}
