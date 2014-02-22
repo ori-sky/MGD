@@ -91,5 +91,23 @@ describe('Rect', function()
 			expect(r.overlaps(new Rect(50, 10, 10, 10))).toBe(false)
 			expect(r.overlaps(new Rect(50, 50, 10, 10))).toBe(false)
 		})
+
+		it('can be compared to a Rect for reference equality', function()
+		{
+			expect(r.is(r)).toBe(true)
+			expect(r.is(new Rect(10, 20, 40, 30))).toBe(false)
+			expect(r.is(new Rect(20, 10, 30, 40))).toBe(false)
+			expect(r.is(undefined)).toBe(false)
+			expect(r.is(null)).toBe(false)
+		})
+
+		it('can be compared to a Rect for value equality', function()
+		{
+			expect(r.isEqual(r)).toBe(true)
+			expect(r.isEqual(new Rect(10, 20, 40, 30))).toBe(true)
+			expect(r.isEqual(new Rect(20, 10, 30, 40))).toBe(false)
+			expect(r.isEqual(undefined)).toBe(false)
+			expect(r.isEqual(null)).toBe(false)
+		})
 	})
 })
